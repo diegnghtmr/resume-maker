@@ -50,16 +50,18 @@ scripts/build.sh                    # all 8 CVs  (Git Bash / macOS / Linux / WSL
 scripts/build.sh cv/main-en.tex     # one file
 ```
 
-Output → `build/cv/*.pdf`. First run pulls the TeX Live image (~a few GB, cached after);
-override it with `LATEX_IMAGE`. Prefer a native install? `latexmk cv/main-en.tex` from the
-repo root also works. No setup at all? Just `git push` — CI builds and publishes.
+Output → `build/cv/*.pdf` (applications → `build/applications/<job>/`). First run pulls the TeX
+Live image (~a few GB, cached **locally** after that); override it with `LATEX_IMAGE`.
+Prefer a native install? `latexmk cv/main-en.tex` works for **canonical** CVs — but never run
+bare `latexmk` on an application file: it writes to `build/cv/` and overwrites the canonical PDF.
+No setup at all? Just `git push` — CI builds and publishes.
 
-## First-time GitHub setup
+## GitHub setup — ✅ already done (kept for reference)
 
 1. Create a **public** repo named `resume-maker` and push `main`.
 2. Settings → Pages → **Source: GitHub Actions**.
-3. Push → the `Publish CVs` workflow builds and deploys to the base URL above
-   (first run ~2–5 min while it pulls the TeX Live image).
+3. Push → the `Publish CVs` workflow builds and deploys to the base URL above.
+   Every run takes ~2–5 min: CI re-pulls the TeX Live image each time (no CI image cache).
 
 ## Common tasks
 
@@ -67,6 +69,10 @@ repo root also works. No setup at all? Just `git push` — CI builds and publish
 - **Cut a version** — `git tag -a v5 -m "v5: ..."; git push --tags`.
 - **Tailor for a job** — see [applications/README.md](applications/README.md), or just tell
   your coding agent *"generate a CV for &lt;role&gt; at &lt;company&gt;"*.
+- **Add a NEW published CV** — four files change together: the `cv/` stub (unique basename),
+  `root_file` in `.github/workflows/publish.yml` (an explicit list, **not** a glob),
+  `shared/links.tex`, and `web/index.html`. Miss the workflow → the landing page ships a 404.
 
-Privacy: the Pages site is public (GitHub Free plan). `robots.txt` discourages indexing;
-details in `docs/system-design.md` §10.
+Privacy: the Pages site is public (GitHub Free plan). `robots.txt` and a `noindex` meta on the
+landing page discourage indexing, but PDFs can't carry a noindex header and the landing page
+publicly lists every CV. Details in `docs/system-design.md` §10.

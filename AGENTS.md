@@ -49,7 +49,9 @@ overwriting a canonical one.
 
 - **Never invent facts.** Reshape only what exists in `content/`. Move content, don't rewrite it, unless asked.
 - Class only in `shared/`. Links only via `shared/links.tex`. Filenames ASCII / space-free / lowercase-hyphen.
-- Adding or renaming a published CV = update `shared/links.tex` **and** `web/index.html` together.
+- Adding or renaming a published CV touches **four** files together: the `cv/` stub, `root_file` in
+  `.github/workflows/publish.yml` (CI compiles an **explicit list, not a glob**), `shared/links.tex`,
+  and `web/index.html` (it hard-codes the links). Miss the workflow → the landing page 404s.
 - `applications/` is append-only and build-only. Publishing one is an explicit, opt-in act.
 - **Unique basenames.** Every entry in `publish.yml`'s `root_file` must have a distinct basename;
   output is flat in `build/cv/`, so a duplicate silently overwrites a canonical CV at its public URL.

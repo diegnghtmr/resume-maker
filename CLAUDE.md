@@ -28,8 +28,9 @@ to `build/cv/`, overwriting a canonical PDF.
 
 - **Never invent facts** on a CV. Only reshape what already exists in `content/`.
 - `fed-res.cls` lives **only** in `shared/`. Never copy it into a folder.
-- External links **only** via macros in `shared/links.tex`. Adding/renaming a published CV means
-  updating `shared/links.tex` **and** `web/index.html` together, or the landing page breaks.
+- External links **only** via macros in `shared/links.tex`. Adding/renaming a published CV touches
+  **four** files: the `cv/` stub, `root_file` in `publish.yml` (an explicit list, **not** a glob),
+  `shared/links.tex`, and `web/index.html`. Miss the workflow → the landing page ships a 404.
 - `applications/` is **append-only** and **build-only** (never published unless asked).
 - Anything added to `root_file` in `.github/workflows/publish.yml` **must have a unique basename** —
   output is flat in `build/cv/`, so a duplicate name overwrites a canonical CV at its permanent URL.

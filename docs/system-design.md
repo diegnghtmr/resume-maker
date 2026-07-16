@@ -71,8 +71,9 @@ All three pillars were verified against current documentation, not memory. Sourc
 - `xu-cheng/latex-action@v4` runs a full TeX Live in Docker — **no local LaTeX install needed**.
 - Because each CV compiles from a directory where its class/bib are reachable, a custom
   `fed-res.cls` "just works" (via `working_directory`, `work_in_root_file_dir`, or `TEXINPUTS`).
-- `latexmk` auto-runs bibtex/biber **only if the document actually `\cite`s** — your inert
-  `citations.bib` (its `\addbibresource` is commented out in the class) is silently ignored, no error.
+- The class loads `biblatex` **unconditionally**, so `latexmk` runs **biber on every build**
+  (you'll see `.bcf/.bbl/.blg` under `build/`). Harmless: `\addbibresource` is commented out in the
+  class and nothing `\cite`s, so `citations.bib` contributes nothing and the build succeeds.
 - Cost caveat: Linux runners only; each run re-pulls the multi-GB TeX Live image → **~2–5 min/run**.
   Fine for a CV. If speed ever matters, `Tectonic` builds in seconds (tradeoff: XeTeX engine).
 
@@ -302,7 +303,8 @@ jobs:
 No local LaTeX install is required. `scripts/build.ps1` (PowerShell) and `scripts/build.sh`
 (bash) compile in a TeX Live container for parity with CI:
 - Start Docker Desktop; run `scripts/build.ps1` (all) or `scripts/build.ps1 cv/main-en.tex` (one).
-- Output lands in `build/cv/` via `latexmkrc`, exactly like CI. Override the image via `LATEX_IMAGE`.
+- The scripts pass a per-source-dir `-outdir`, **overriding** `latexmkrc`: canonical → `build/cv/`,
+  applications → `build/applications/<job>/`. Override the image via `LATEX_IMAGE`.
 - First run pulls a multi-GB TeX Live image (cached afterward).
 - Uses **pdfLaTeX** (the class needs `\pdfgentounicode` / `glyphtounicode`), so a full TeX Live
   image is used — **not** Tectonic/XeTeX, which would require patching the class.
@@ -318,8 +320,11 @@ Verified facts you must decide on:
 - Your CV exposes **phone number and email**. On Pages, both become publicly fetchable, and the
   PDF can be crawled/indexed by search engines.
 - Pages allows **no custom HTTP headers**, so you cannot send `X-Robots-Tag: noindex` on a PDF.
-  The only levers are a `robots.txt` `Disallow` (discourages, doesn't guarantee de-indexing) and
-  **not linking the URLs publicly**.
+  Levers actually in place: a `robots.txt` `Disallow` (discourages, doesn't guarantee de-indexing)
+  and a `noindex, nofollow` meta on `web/index.html` — which covers the HTML page **only, not the
+  PDFs**.
+- ⚠️ **Updated after the landing page shipped:** `web/index.html` **publicly enumerates every CV**
+  from the site root, so "don't link the URLs publicly" is no longer a lever.
 
 Context that softens this: your CV already publicly links your portfolio, GitHub and LinkedIn,
 and a CV is a document made to be handed out. But "handed to a recruiter" ≠ "Google-indexed",

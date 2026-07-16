@@ -16,8 +16,14 @@ Edit section content in `content/<lang>/*.tex`. The `cv/` stubs only assemble.
       \resumeItem{Achievement, quantified where possible.}
   \resumeItemListEnd
   ```
-- Other helpers: `\resumeSubheadingShort{a}{b}`, `\resumeSubheadingWork{...}` (6 args),
-  `\resumeProjectHeading{a}{b}`, `\resumeItem{...}`, `\cvpub{...}` (a publication line).
+- Other helpers (argument order matters — from `shared/fed-res.cls`):
+  - `\resumeSubheadingShort{Title}{Date}` — entry with no location.
+  - `\resumeSubheadingWork{Role}{Dates}{Employer}{Location}{Supervisor}{Hours per week}` —
+    the federal-style entry (6 args); rows render as 1&2, then 3&4 italic, then 5&6.
+  - `\resumeProjectHeading{Name / description}{Date or link}`
+  - `\resumeSubSubheading{Title}{Date}` — a second position at the same employer.
+  - `\resumeItem{Bullet text}` · `\resumeSubItem{Bullet}` (tighter spacing)
+  - `\cvpub{Full citation text}` — a publication line with hanging indent.
 
 ## short vs full
 - `*.short.tex` = the version shown in the MAIN CV (kept brief).

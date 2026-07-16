@@ -1,5 +1,13 @@
-% Tailored application CV — self-contained for a durable archive.
-% Build from the repo ROOT: latexmk applications/<folder>/main-en.tex
+% Tailored application CV. INLINE the tailored bullets below so this archive never drifts;
+% only the stable header/links are \input.
+%
+% Build from the repo ROOT:
+%     scripts/build.ps1 applications/<folder>/main-en.tex      (or scripts/build.sh)
+%   -> build/applications/<folder>/main-en.pdf
+%
+% NEVER run bare `latexmk` on this file: it obeys ./latexmkrc, writes to build/cv/, and
+% OVERWRITES the canonical main CV. Only the scripts pass a per-source-dir -outdir.
+%
 % Rule: reshape facts from content/<lang>/*.tex; never invent new ones.
 \documentclass[letterpaper,12pt]{fed-res}
 \input{shared/links.tex}

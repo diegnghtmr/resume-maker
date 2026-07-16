@@ -34,10 +34,14 @@ build/         local output (gitignored). site/ exists only inside CI.
   needs a distinct basename.
 - Build from the repo root.
 
-## Paired edit: links.tex + web/index.html
-`shared/links.tex` holds the URL macros used **inside** the CVs. `web/index.html` is the public
-landing page and **hard-codes the same PDF paths**. Adding, renaming, or removing a published CV
-requires updating **both**, or the landing page links 404.
+## Adding / renaming a published CV — FOUR files change together
+1. `cv/<name>.tex` — the stub (**unique basename**; output is flat in `build/cv/`).
+2. `.github/workflows/publish.yml` — add it to `root_file`. CI compiles an **explicit list, not a
+   glob** — miss this and the CV is never built.
+3. `shared/links.tex` — the URL macro, if another CV links to it.
+4. `web/index.html` — the landing page **hard-codes** the PDF paths.
+
+Miss #2 and the landing page ships a live 404. Miss #4 and the CV is unreachable from the site.
 
 ## Permanent-link model
 `shared/links.tex` maps each detail CV to a permanent GitHub Pages URL; the main CV references
