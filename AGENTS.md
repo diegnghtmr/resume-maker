@@ -17,7 +17,7 @@ Live: <https://diegnghtmr.github.io/resume-maker/> · Design & rationale: `docs/
 | Path | What |
 |------|------|
 | `shared/` | `fed-res.cls` (the ONE class), `links.tex` (every published URL), `citations.bib` (**inert** — `\addbibresource` is commented out in the class) |
-| `content/en`, `content/es` | section partials; `*.short.tex` (main CV) and `*.full.tex` (detail CV, a real superset). No `\section` line inside — the stub sets it. |
+| `content/en`, `content/es` | section partials; `*.short.tex` (main CV) and `*.full.tex` (detail CV — usually fuller: work 2 vs 3 jobs, certs 7 vs 12; education is currently identical). No `\section` line inside — the stub sets it. |
 | `cv/` | 8 thin assembly stubs → the 8 canonical PDFs |
 | `applications/` | "la fonda" — one folder per job, append-only, **build-only** |
 | `web/index.html` | landing page deployed to the site root; **hard-codes all 8 PDF links** |

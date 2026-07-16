@@ -139,7 +139,7 @@ resume-maker/
 │   ├── work-en.tex  experiencia-es.tex
 │   └── certifications-en.tex  certificaciones-es.tex
 ├── applications/                # "la fonda" — append-only, one folder per job, never deleted
-│   └── 2026-07-15-acme-staff-engineer/
+│   └── 2026-07-15-acme-staff-engineer/     # ILLUSTRATIVE name — the pool starts empty
 │       ├── job.md               # the job description + tailoring notes
 │       └── main-en.tex          # tailored CV — INLINE the tailored bullets (never drift)
 ├── web/index.html               # landing page deployed to the site ROOT
@@ -163,12 +163,12 @@ Delta vs. today: `8 fed-res.cls → 1`, `8 citations.bib → 1`, `64 dead files 
 \input{shared/links.tex}
 \begin{document}
   \input{content/en/header.tex}
-  \input{content/en/profile.tex}
+  \section{Professional Profile}                                   \input{content/en/profile.tex}
   \section{Education \hfill \href{\urlEducationEn}{See more}}      \input{content/en/education.short.tex}
   \section{Work Experience \hfill \href{\urlWorkEn}{See more}}     \input{content/en/work.short.tex}
-  \input{content/en/skills.tex}
+  \section{Skills}                                                 \input{content/en/skills.tex}
   \section{Certifications \hfill \href{\urlCertsEn}{See more}}     \input{content/en/certifications.short.tex}
-  \input{content/en/languages.tex}
+  \section{Languages}                                              \input{content/en/languages.tex}
 \end{document}
 ```
 
@@ -213,7 +213,8 @@ Pages serves it at the same `\urlEducationEn`. The main CV never changes. **Zero
 
 - One committed folder per application: `applications/YYYY-MM-DD-company-role/`.
 - Sortable, greppable, never deleted → the archive can't rot or be garbage-collected.
-- Each holds `job.md` (the JD + why you tailored what) and a self-contained tailored `.tex`.
+- Each holds `job.md` (the JD + why you tailored what) and a tailored `.tex` whose bullets are
+  **inlined** so the archive never drifts (only the stable header/links are `\input`).
 - The agent creates a variant by copying the canonical main + selecting/rewording facts from the
   `content/` master partials to match the JD.
 - Publishing an application CV publicly is **opt-in per application** (§9.3).
@@ -342,8 +343,8 @@ so this is a genuine choice. Options are in §14.
 - **The class lives only in `shared/`.** Never re-copy `fed-res.cls` into a variant folder; `TEXINPUTS`
   (via `latexmkrc`) resolves it.
 - **Every external link comes from `shared/links.tex`.** No raw URLs inside a CV body.
-- **Sections have two forms:** `*.short` (main) and `*.full` (detail). Never unify them silently —
-  the detail is a real superset.
+- **Sections have two forms:** `*.short` (main) and `*.full` (detail). Never unify them silently.
+  Today: work = 2 vs 3 jobs, certifications = 7 vs 12, **education is identical** in both.
 - **`applications/` is append-only.** Copy, never move; never delete a past variant.
 - **A published URL path is a contract.** Renaming a repo/file/domain breaks live links — avoid it.
 
