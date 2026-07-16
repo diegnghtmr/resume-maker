@@ -31,7 +31,16 @@ else
 fi
 
 echo "Building ${#TARGETS[@]} CV(s) with ${IMAGE} ..."
-# ./latexmkrc (mounted at /work) sets pdflatex, TEXINPUTS, and out_dir=build/cv.
-MSYS_NO_PATHCONV=1 docker run --rm -v "${HOSTROOT}:/work" -w /work "${IMAGE}" \
-  latexmk "${TARGETS[@]}"
-echo "Done. PDFs are in build/cv/"
+# One container; compile each target into build/<its source dir> so canonical CVs
+# (cv/) and tailored applications (applications/<job>/) never collide on filename.
+# ./latexmkrc sets pdflatex + TEXINPUTS; -outdir/-auxdir override its default out dir.
+MSYS_NO_PATHCONV=1 docker run --rm -v "${HOSTROOT}:/work" -w /work "${IMAGE}" bash -c '
+  status=0
+  for t in "$@"; do
+    d="build/$(dirname "$t")"
+    echo ">> $t  ->  $d/"
+    latexmk -outdir="$d" -auxdir="$d" "$t" || status=1
+  done
+  exit $status
+' _ "${TARGETS[@]}"
+echo "Done. Canonical -> build/cv/ ; applications -> build/applications/<job>/"

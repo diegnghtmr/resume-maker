@@ -31,6 +31,8 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Building $($Targets.Count) CV(s) with $image ..."
-# ./latexmkrc (mounted at /work) sets pdflatex, TEXINPUTS, and out_dir=build/cv.
-docker run --rm -v "${root}:/work" -w /work $image latexmk @Targets
-Write-Host 'Done. PDFs are in build/cv/'
+# One container; compile each target into build/<its source dir> so canonical CVs and
+# tailored applications never collide on filename. -outdir/-auxdir override latexmkrc.
+$loop = 'status=0; for t in "$@"; do d="build/$(dirname "$t")"; echo ">> $t -> $d/"; latexmk -outdir="$d" -auxdir="$d" "$t" || status=1; done; exit $status'
+docker run --rm -v "${root}:/work" -w /work $image bash -c $loop _ @Targets
+Write-Host 'Done. Canonical -> build/cv/ ; applications -> build/applications/<job>/'

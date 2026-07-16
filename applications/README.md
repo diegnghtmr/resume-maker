@@ -23,7 +23,8 @@ applications/
 4. For a durable, frozen snapshot, **inline** the tailored bullets directly in the
    application `.tex` (the canonical `cv/` set uses shared partials; archived
    applications should stand on their own so they never drift).
-5. Build from the repo root: `latexmk applications/2026-07-15-acme-staff-engineer/main-en.tex`.
+5. Build from the repo root with the container: `scripts/build.ps1 applications/<folder>/main-en.tex`
+   (or `scripts/build.sh`). Output → `build/applications/<folder>/main-en.pdf`. A native `latexmk` also works.
 
 ## Publishing (optional)
 

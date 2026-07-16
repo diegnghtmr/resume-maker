@@ -9,7 +9,8 @@
 5. For a durable, frozen archive, INLINE the tailored bullets directly in the
    application `.tex`. The canonical `cv/` set uses shared partials; archived
    applications should stand alone so they never drift when `content/` evolves.
-6. Build from the repo root: `latexmk applications/<folder>/main-en.tex`.
+6. Build from the repo root: `scripts/build.ps1 applications/<folder>/main-en.tex` (containerized;
+   output → `build/applications/<folder>/`), or native `latexmk` if LaTeX is installed.
 7. Commit (Conventional Commits). Do NOT delete past application folders — append-only.
 
 ## Naming
