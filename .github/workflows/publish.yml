@@ -30,6 +30,10 @@ jobs:
       - name: Compile canonical CVs
         uses: xu-cheng/latex-action@v4
         with:
+          # WARNING: every entry here MUST have a UNIQUE basename. ./latexmkrc routes all
+          # output flat into build/cv/, so two root files named main-en.tex would overwrite
+          # each other and publish the wrong CV at a permanent URL. To publish a tailored
+          # application, first give it a distinct basename (e.g. main-en-acme.tex).
           root_file: |
             cv/main-en.tex
             cv/main-es.tex
@@ -49,8 +53,12 @@ jobs:
       # folder, mirroring the URL layout, plus a robots.txt to discourage indexing.
       - name: Assemble Pages site
         run: |
+          set -euo pipefail
           mkdir -p site/cv
-          find . -type f -name '*.pdf' ! -path './site/*' -exec cp -f {} site/cv/ \;
+          # Deterministic: publish ONLY the canonical build output (./latexmkrc puts it in
+          # build/cv). Never sweep the whole tree — that could publish a tailored
+          # application PDF, which is build-only by design.
+          cp build/cv/*.pdf site/cv/
           cp -r web/. site/                     # landing page (index.html) + static assets
           printf 'User-agent: *\nDisallow: /\n' > site/robots.txt
           echo "Published files:"; ls -la site && ls -la site/cv
