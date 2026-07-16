@@ -1,9 +1,10 @@
 # Resume-Maker — System Design & Research
 
-> Status: **Implemented (v4).** The idea is validated, the repo is restructured to this
-> design, the `Publish CVs` CI is in place, and the `resume-maker` skill is built.
-> Remaining manual step: create the public GitHub repo + enable Pages
-> (README → "First-time GitHub setup"), then push to trigger the first build.
+> Status: **Live (v4).** Validated, restructured, CI in place, `resume-maker` skill built,
+> and deployed. The repo is public at `github.com/diegnghtmr/resume-maker`; the first
+> `Publish CVs` run compiled all 8 CVs and deployed them to Pages. Verified serving at
+> `https://diegnghtmr.github.io/resume-maker/cv/<name>.pdf` (HTTP 200, `application/pdf`).
+> Update a CV → push → the same URLs refresh.
 >
 > Last updated: 2026-07-15
 
