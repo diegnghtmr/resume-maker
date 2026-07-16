@@ -11,12 +11,17 @@ URLs** — update a CV and its link never changes.
 
 | Path | What |
 |------|------|
-| `shared/` | `fed-res.cls` (the class), `citations.bib`, `links.tex` (every published URL) |
+| `shared/` | `fed-res.cls` (the class), `links.tex` (every published URL), `citations.bib` (inert — nothing cites it) |
 | `content/en`, `content/es` | section partials — `*.short` (main) and `*.full` (detail) |
 | `cv/` | thin assembly stubs → the 8 canonical PDFs |
-| `applications/` | one folder per job application ("la fonda"), append-only |
-| `.github/workflows/publish.yml` | compiles `cv/` and deploys the PDFs to Pages |
-| `build/`, `site/` | generated output (gitignored) |
+| `applications/` | one folder per job application ("la fonda"), append-only, build-only |
+| `web/index.html` | landing page deployed to the site root (hard-codes all 8 PDF links) |
+| `scripts/` | `build.ps1` / `build.sh` — containerized build entry points |
+| `latexmkrc` | pdfLaTeX + `TEXINPUTS` + default output dir (`build/cv`) |
+| `docs/` | `system-design.md` + `reference/latex-ieee/` (vendored LaTeX reference) |
+| `AGENTS.md`, `CLAUDE.md` | rules for AI agents (the skill lives in `.claude/skills/resume-maker/`) |
+| `.github/workflows/publish.yml` | compiles `cv/` and deploys the PDFs + landing page to Pages |
+| `build/` | local generated output (gitignored). `site/` is created only inside CI. |
 
 ## Permanent URLs
 

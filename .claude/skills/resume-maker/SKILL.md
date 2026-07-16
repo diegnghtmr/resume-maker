@@ -44,8 +44,11 @@ reference file (Decision Gates) before acting.
 
 1. Detect the current version from the latest `git tag` (e.g. `v4`); the canonical set is `cv/`.
 2. Do the task per the Decision Gate, reusing `content/` and the class as-is.
-3. Verify: run `latexmk <file>` locally if LaTeX is installed; otherwise rely on the
-   `Publish CVs` CI — there is no local LaTeX by default, so CI is the source of truth.
+3. Verify by building: `scripts/build.ps1 <file>` (or `scripts/build.sh`) compiles in a TeX Live
+   container — no local LaTeX needed, only Docker Desktop running. Canonical CVs land in
+   `build/cv/`, applications in `build/applications/<job>/`. Never run bare `latexmk` on an
+   application file: it obeys `latexmkrc` and overwrites `build/cv/`. If Docker is unavailable,
+   the `Publish CVs` CI verifies on push.
 4. Commit with a Conventional Commit message (no AI attribution). Publishing keeps the same permanent URL.
 
 ## Output Contract
@@ -59,5 +62,8 @@ version tag was cut, and whether CI publishing was triggered.
 - `references/authoring.md` — editing content, section commands, short vs full
 - `references/publishing.md` — CI, permanent URLs, versioning, privacy
 - `references/new-application.md` — tailoring a CV for a job ("la fonda")
-- `docs/system-design.md` — full design & rationale
+- `assets/main-cv.template.tex` — template for a new canonical `cv/` stub
+- `assets/application.template.tex` — template for a tailored application CV
+- `assets/job.template.md` — template for an application's `job.md`
+- `docs/system-design.md` — design record & rationale (see its status banner; some sections are historical)
 - `docs/reference/latex-ieee/SKILL.md` — general LaTeX reference (IEEE-oriented; secondary)

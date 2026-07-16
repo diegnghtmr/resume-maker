@@ -1,12 +1,17 @@
 # Resume-Maker — System Design & Research
 
-> Status: **Live (v4).** Validated, restructured, CI in place, `resume-maker` skill built,
-> and deployed. The repo is public at `github.com/diegnghtmr/resume-maker`; the first
-> `Publish CVs` run compiled all 8 CVs and deployed them to Pages. Verified serving at
-> `https://diegnghtmr.github.io/resume-maker/cv/<name>.pdf` (HTTP 200, `application/pdf`).
-> Update a CV → push → the same URLs refresh.
+> Status: **Live (v4)** — this file is the original **design & research record**, kept for its
+> rationale and sources.
 >
-> Last updated: 2026-07-15
+> ⚠️ **This is NOT the operational reference.** For current structure, commands and rules use
+> **`README.md`**, **`AGENTS.md`**, and the skill at **`.claude/skills/resume-maker/`** — those are
+> the source of truth. Sections **2, 13, 14 and 15** below describe the *pre-migration* repo and the
+> decision process; they are **historical** and must not be read as the current state.
+>
+> The repo is public at `github.com/diegnghtmr/resume-maker`; CVs are served at
+> `https://diegnghtmr.github.io/resume-maker/cv/<name>.pdf`. Update a CV → push → same URLs.
+>
+> Last updated: 2026-07-16
 
 ---
 
@@ -111,8 +116,7 @@ resume-maker/
 ├── shared/
 │   ├── fed-res.cls              # ONE canonical class  (replaces 8 identical copies)
 │   ├── citations.bib            # ONE canonical bib    (replaces 8; inert today)
-│   ├── links.tex                # every permanent published URL, defined ONCE
-│   └── preamble.tex             # optional: shared settings the class doesn't cover
+│   └── links.tex                # every permanent published URL, defined ONCE
 ├── content/
 │   ├── en/
 │   │   ├── header.tex           # contact block, "Portfolio:" label
@@ -129,18 +133,22 @@ resume-maker/
 │       ├── experiencia.short.tex      experiencia.full.tex
 │       └── certificaciones.short.tex  certificaciones.full.tex
 ├── cv/                          # the CANONICAL current-version set (today: v4)
-│   ├── main-en.tex  main-es.tex                 # short sections + "See more" links
-│   ├── education-en.tex  education-es.tex        # detail = *.full partials
-│   ├── work-en.tex  work-es.tex
-│   └── certifications-en.tex  certifications-es.tex
+│   ├── main-en.tex  main-es.tex                       # short sections + "See more" links
+│   ├── education-en.tex  educacion-es.tex             # detail = *.full partials
+│   ├── work-en.tex  experiencia-es.tex
+│   └── certifications-en.tex  certificaciones-es.tex
 ├── applications/                # "la fonda" — append-only, one folder per job, never deleted
 │   └── 2026-07-15-acme-staff-engineer/
 │       ├── job.md               # the job description + tailoring notes
-│       └── main-en.tex          # self-contained tailored CV (\inputs shared partials)
-├── build/                       # gitignored — compiled PDFs staged for Pages
-├── docs/system-design.md        # this file
-├── latexmkrc                    # sets TEXINPUTS so {fed-res} + partials resolve
-├── .gitignore                   # build/, *.aux, *.log, *.out, *.fls, *.fdb_latexmk
+│       └── main-en.tex          # tailored CV — INLINE the tailored bullets (never drift)
+├── web/index.html               # landing page deployed to the site ROOT
+├── scripts/                     # build.ps1 | build.sh — containerized build (Docker)
+├── build/                       # gitignored — LOCAL output (site/ exists only inside CI)
+├── docs/system-design.md        # this file  ·  docs/reference/latex-ieee/ (vendored ref)
+├── .claude/skills/resume-maker/ # the agent skill
+├── AGENTS.md  CLAUDE.md         # agent rules (CLAUDE.md imports AGENTS.md)
+├── latexmkrc                    # pdfLaTeX + TEXINPUTS + default out dir (build/cv)
+├── .gitignore  .gitattributes
 └── README.md
 ```
 
@@ -213,7 +221,12 @@ Pages serves it at the same `\urlEducationEn`. The main CV never changes. **Zero
 
 ## 9. Publishing & CI
 
-### 9.1 Reference workflow (`.github/workflows/publish.yml`)
+### 9.1 Reference workflow — ⚠️ HISTORICAL DRAFT, DO NOT COPY
+
+> The YAML below is the original draft and **no longer matches the shipped workflow** (it has the
+> wrong ES filenames, stages into `build/` instead of `site/`, lacks the landing-page copy and
+> `BIBINPUTS`). The real file is the only source of truth:
+> **[.github/workflows/publish.yml](../.github/workflows/publish.yml)**. Kept only to show intent.
 
 ```yaml
 name: Publish CVs
@@ -266,8 +279,9 @@ jobs:
         uses: actions/deploy-pages@v4
 ```
 
-> The exact PDF output paths (repo root vs. next to source) get pinned and verified during
-> implementation — `latexmkrc` will set `$out_dir` so the `cp` step is deterministic.
+> Resolved: `latexmkrc` sets `$out_dir='build/cv'`, and the shipped workflow deterministically
+> copies `build/cv/*.pdf` into `site/cv/` (no whole-tree sweep). Note this makes basenames flat:
+> anything added to `root_file` must have a unique basename or it overwrites a canonical CV.
 
 ### 9.2 URL scheme — DECIDED (D1)
 - **Chosen:** project site, no custom domain → `https://diegnghtmr.github.io/resume-maker/cv/main-en.pdf`.
@@ -348,23 +362,24 @@ You pass information; the agent handles structure, naming, versioning, build, li
 
 ## 13. Deliverables to build later (implementation phase)
 
-### 13.1 The repo Skill (`.skill/` or `skills/resume-maker/SKILL.md`)
+### 13.1 The repo Skill — ✅ SHIPPED at `.claude/skills/resume-maker/SKILL.md`
 - Authored per the `skill-creator` rules: YAML frontmatter (`name`, `description` with explicit
   triggers), **lazy-loading** body (short entry point that points to reference files, not a wall of text).
 - Encodes: the architecture (§5), conventions (§11), the agent workflow (§12), the build/publish
   commands (§9), and the privacy defaults (§10, §9.3).
-- Reference files (loaded on demand): `structure.md`, `authoring.md`, `publishing.md`, `versioning.md`.
+- Reference files (as shipped): `architecture.md`, `authoring.md`, `publishing.md`,
+  `new-application.md` (versioning folded into `publishing.md`), plus `assets/` templates.
 
 ### 13.2 Copy of the LaTeX skill — with a caveat
 - The only LaTeX skill on this machine is **`ieee-latex`**
-  (`C:\Users\diego\.agents\skills\ieee-latex-skill\SKILL.md`). It targets **IEEE papers**
+  (vendored in-repo at `docs/reference/latex-ieee/SKILL.md`). It targets **IEEE papers**
   (`IEEEtran`), not résumés — so it's only partially relevant to `fed-res.cls`.
-- Per your request we will **copy it into the repo for tracking**, but the repo's real LaTeX guidance
-  should be a **résumé-specific** reference (built around `fed-res.cls`). Flagged as an open item.
+- ✅ Copied to `docs/reference/latex-ieee/` (tracked, not an active skill). The repo's
+  résumé-specific LaTeX guidance lives in the skill's `references/authoring.md`.
 
 ---
 
-## 14. Open decisions (need your call before implementation)
+## 14. Decisions — all settled (historical record)
 
 | # | Decision | Recommendation |
 |---|----------|----------------|
@@ -373,7 +388,7 @@ You pass information; the agent handles structure, naming, versioning, build, li
 | D3 | **Publish application (fonda) CVs** publicly or keep them build-only | Build-only by default; publish per-application on demand. _(done)_ |
 | D4 | **Delete the 64 dead `Resume Sections` files** during migration | Yes — verified unused (nothing `\input`s them). _(done)_ |
 
-## 15. Migration plan (once §14 is decided)
+## 15. Migration plan — ✅ completed (historical record)
 
 1. `git init`; add `.gitignore`; commit the current state as the baseline; `git tag v4-legacy`.
 2. Create `shared/` with one `fed-res.cls`, one `citations.bib`, and `links.tex`.
