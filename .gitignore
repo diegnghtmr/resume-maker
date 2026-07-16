@@ -22,3 +22,6 @@ site/
 # OS / editor cruft
 .DS_Store
 Thumbs.db
+
+# Local tooling metadata (auto-generated skill registry; not part of this project)
+.atl/
