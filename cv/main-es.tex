@@ -1,0 +1,28 @@
+%-------------------------------------------------------------------------------
+% cv/main-es.tex — CV principal (Español). Secciones cortas + enlaces "Ver más".
+% Ensambla los parciales compartidos. La clase vive en shared/ (vía TEXINPUTS,
+% definido en ./latexmkrc). Compilar desde la RAÍZ del repo, nunca dentro de cv/.
+%-------------------------------------------------------------------------------
+\documentclass[letterpaper,12pt]{fed-res}
+\input{shared/links.tex}
+\begin{document}
+\input{content/es/header.tex}
+
+\section{Perfil Profesional}
+\input{content/es/perfil.tex}
+
+\section{Educación \hfill \href{\urlEducationEs}{Ver más}}
+\input{content/es/educacion.short.tex}
+
+\section{Experiencia Laboral \hfill \href{\urlWorkEs}{Ver más}}
+\input{content/es/experiencia.short.tex}
+
+\section{Habilidades}
+\input{content/es/habilidades.tex}
+
+\section{Certificaciones \hfill \href{\urlCertsEs}{Ver más}}
+\input{content/es/certificaciones.short.tex}
+
+\section{Idiomas}
+\input{content/es/idiomas.tex}
+\end{document}

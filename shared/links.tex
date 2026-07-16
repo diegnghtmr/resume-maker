@@ -1,0 +1,23 @@
+%-------------------------------------------------------------------------------
+% shared/links.tex — SINGLE SOURCE OF TRUTH for every external "See more" link.
+%
+% Each detail CV is published to GitHub Pages at a PERMANENT URL that does not
+% change when its content changes. Edit a URL here ONCE; every CV that uses the
+% macro picks it up on the next build. Never paste a raw URL inside a CV body —
+% always reference a macro defined here.
+%-------------------------------------------------------------------------------
+
+% Public site root. Tied to the public repo name "resume-maker" (user diegnghtmr).
+% To move to a custom domain later (e.g. https://cv.diegnghtmr.me), change ONLY
+% this line and re-push — every link updates automatically.
+\newcommand{\SITE}{https://diegnghtmr.github.io/resume-maker}
+
+% English detail CVs
+\newcommand{\urlEducationEn}{\SITE/cv/education-en.pdf}
+\newcommand{\urlWorkEn}{\SITE/cv/work-en.pdf}
+\newcommand{\urlCertsEn}{\SITE/cv/certifications-en.pdf}
+
+% Spanish detail CVs
+\newcommand{\urlEducationEs}{\SITE/cv/educacion-es.pdf}
+\newcommand{\urlWorkEs}{\SITE/cv/experiencia-es.pdf}
+\newcommand{\urlCertsEs}{\SITE/cv/certificaciones-es.pdf}

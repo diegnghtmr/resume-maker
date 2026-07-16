@@ -1,0 +1,28 @@
+%-------------------------------------------------------------------------------
+% cv/main-en.tex — Main resume (English). Short sections + "See more" links.
+% Assembles shared partials. The class lives in shared/ (found via TEXINPUTS,
+% set by ./latexmkrc). Build from the REPO ROOT, never from inside cv/.
+%-------------------------------------------------------------------------------
+\documentclass[letterpaper,12pt]{fed-res}
+\input{shared/links.tex}
+\begin{document}
+\input{content/en/header.tex}
+
+\section{Professional Profile}
+\input{content/en/profile.tex}
+
+\section{Education \hfill \href{\urlEducationEn}{See more}}
+\input{content/en/education.short.tex}
+
+\section{Work Experience \hfill \href{\urlWorkEn}{See more}}
+\input{content/en/work.short.tex}
+
+\section{Skills}
+\input{content/en/skills.tex}
+
+\section{Certifications \hfill \href{\urlCertsEn}{See more}}
+\input{content/en/certifications.short.tex}
+
+\section{Languages}
+\input{content/en/languages.tex}
+\end{document}

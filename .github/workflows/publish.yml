@@ -1,0 +1,62 @@
+name: Publish CVs
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Serialize deploys; never cancel an in-progress production deploy.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest            # xu-cheng/latex-action is a container action -> Linux only
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Compiles every canonical CV from the repo root. ./latexmkrc sets TEXINPUTS
+      # (so shared/fed-res.cls + content/ partials resolve) and $out_dir=build/cv.
+      - name: Compile canonical CVs
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: |
+            cv/main-en.tex
+            cv/main-es.tex
+            cv/education-en.tex
+            cv/educacion-es.tex
+            cv/work-en.tex
+            cv/experiencia-es.tex
+            cv/certifications-en.tex
+            cv/certificaciones-es.tex
+
+      # Collect the compiled PDFs (wherever latexmk placed them) into the site
+      # folder, mirroring the URL layout, plus a robots.txt to discourage indexing.
+      - name: Assemble Pages site
+        run: |
+          mkdir -p site/cv
+          find . -type f -name '*.pdf' ! -path './site/*' -exec cp -f {} site/cv/ \;
+          printf 'User-agent: *\nDisallow: /\n' > site/robots.txt
+          echo "Published files:"; ls -la site/cv
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
