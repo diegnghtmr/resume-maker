@@ -284,6 +284,15 @@ jobs:
 - **`applications/`** → built + archived in git; published **only when you flag it** (you don't
   want a CV tailored for Company X publicly discoverable). Default: not deployed.
 
+### 9.4 Local builds (containers)
+No local LaTeX install is required. `scripts/build.ps1` (PowerShell) and `scripts/build.sh`
+(bash) compile in a TeX Live container for parity with CI:
+- Start Docker Desktop; run `scripts/build.ps1` (all) or `scripts/build.ps1 cv/main-en.tex` (one).
+- Output lands in `build/cv/` via `latexmkrc`, exactly like CI. Override the image via `LATEX_IMAGE`.
+- First run pulls a multi-GB TeX Live image (cached afterward).
+- Uses **pdfLaTeX** (the class needs `\pdfgentounicode` / `glyphtounicode`), so a full TeX Live
+  image is used — **not** Tectonic/XeTeX, which would require patching the class.
+
 ---
 
 ## 10. Privacy & security — the one real tradeoff

@@ -31,13 +31,22 @@ Base: `https://diegnghtmr.github.io/resume-maker`
 
 Updating any CV keeps the same URL — no more re-uploading and re-linking.
 
-## Build locally (optional — needs a LaTeX install)
+## Build locally (optional)
 
+No local LaTeX install needed — build in a container with parity to CI. Start Docker Desktop, then:
+
+```powershell
+./scripts/build.ps1                 # all 8 CVs  (PowerShell)
+./scripts/build.ps1 cv/main-en.tex  # one file
+```
 ```sh
-latexmk cv/main-en.tex      # from the repo ROOT; ./latexmkrc handles TEXINPUTS + out_dir
+scripts/build.sh                    # all 8 CVs  (Git Bash / macOS / Linux / WSL)
+scripts/build.sh cv/main-en.tex     # one file
 ```
 
-Output → `build/cv/main-en.pdf`. No local LaTeX? Just push — CI builds and publishes.
+Output → `build/cv/*.pdf`. First run pulls the TeX Live image (~a few GB, cached after);
+override it with `LATEX_IMAGE`. Prefer a native install? `latexmk cv/main-en.tex` from the
+repo root also works. No setup at all? Just `git push` — CI builds and publishes.
 
 ## First-time GitHub setup
 

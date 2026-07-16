@@ -14,7 +14,10 @@ The URL never changes when content changes.
 ## Build & deploy
 - CI: `.github/workflows/publish.yml` compiles every `cv/*.tex` with
   `xu-cheng/latex-action@v4` and deploys the PDFs to GitHub Pages on each push to `main`.
-- Local (optional): `latexmk cv/main-en.tex` from the repo root (needs a LaTeX install).
+- Local (optional, containerized): `scripts/build.ps1` (PowerShell) or `scripts/build.sh`
+  (bash) compiles in a TeX Live container with CI parity — start Docker Desktop first; first
+  run pulls a multi-GB image. A native `latexmk cv/main-en.tex` from the root also works.
+  Uses pdfLaTeX (the class needs `\pdfgentounicode`/`glyphtounicode`), not Tectonic/XeTeX.
 - First CI run pulls the TeX Live image (~2–5 min); later runs are similar (no image cache).
 
 ## First-time GitHub setup
