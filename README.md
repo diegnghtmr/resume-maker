@@ -29,7 +29,8 @@ Base: `https://diegnghtmr.github.io/resume-maker`
 | Work detail | `/cv/work-en.pdf` · `/cv/experiencia-es.pdf` |
 | Certifications detail | `/cv/certifications-en.pdf` · `/cv/certificaciones-es.pdf` |
 
-Updating any CV keeps the same URL — no more re-uploading and re-linking.
+The site root (`https://diegnghtmr.github.io/resume-maker/`) is a landing page (`web/index.html`)
+linking every CV. Updating any CV keeps the same URL — no more re-uploading and re-linking.
 
 ## Build locally (optional)
 

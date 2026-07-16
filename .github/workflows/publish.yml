@@ -51,8 +51,9 @@ jobs:
         run: |
           mkdir -p site/cv
           find . -type f -name '*.pdf' ! -path './site/*' -exec cp -f {} site/cv/ \;
+          cp -r web/. site/                     # landing page (index.html) + static assets
           printf 'User-agent: *\nDisallow: /\n' > site/robots.txt
-          echo "Published files:"; ls -la site/cv
+          echo "Published files:"; ls -la site && ls -la site/cv
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
