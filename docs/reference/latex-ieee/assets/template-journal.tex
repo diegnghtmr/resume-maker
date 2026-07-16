@@ -1,0 +1,172 @@
+% ============================================================================
+%  PLANTILLA IEEE — Artículo de Revista (Journal Paper)
+%  Basada en IEEEtran v1.8b+ | Cumple con ieee-latex SKILL.md
+%  Diferencias con conference: sin \IEEEoverridecommandlockouts, incluye
+%  biografías de autores, usa \thanks para fechas y afiliaciones detalladas.
+% ============================================================================
+
+\documentclass[journal]{IEEEtran}
+
+% ====================== PAQUETES ESENCIALES ==================================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage[caption=false]{subfig}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{listings}
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  breaklines=true,
+  frame=single,
+  framesep=6pt,
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  numbers=none,
+  xleftmargin=8pt,
+  xrightmargin=8pt,
+  framexleftmargin=6pt,
+  framexrightmargin=6pt,
+  aboveskip=10pt,
+  belowskip=6pt,
+  captionpos=t,
+  abovecaptionskip=10pt,
+  belowcaptionskip=15pt,
+  language=bash,
+}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+
+\graphicspath{{figures/}}
+
+% ====================== INICIO DEL DOCUMENTO =================================
+\begin{document}
+
+\title{Título del Artículo de Revista}
+
+\author{Primer~A.~Autor,~\IEEEmembership{Member,~IEEE,}
+  Segundo~B.~Autor,~and~Tercer~C.~Autor,~Jr.,~\IEEEmembership{Fellow,~IEEE}
+  \thanks{Manuscript received Month Day, Year; revised Month Day, Year.}
+  \thanks{P. A. Autor is with the Department of Engineering, University,
+    City, Country (e-mail: primer@universidad.edu).}
+  \thanks{S. B. Autor is with Company Name, City, Country.}
+  \thanks{T. C. Autor is with Another University, City, Country.}
+}
+
+% Encabezado de página (opcional, nombre corto del artículo)
+\markboth{Journal of \LaTeX\ Class Files, Vol.~XX, No.~X, Month~Year}%
+{Autor \MakeLowercase{\textit{et al.}}: Título corto del artículo}
+
+\maketitle
+
+\begin{abstract}
+  Abstract de 100 a 200 palabras para artículos regulares, máximo 50 palabras
+  para correspondence/technote. Sin citas, ecuaciones ni caracteres especiales.
+\end{abstract}
+
+\begin{IEEEkeywords}
+  Keyword uno, keyword dos, keyword tres, keyword cuatro, keyword cinco.
+\end{IEEEkeywords}
+
+% ============================================================================
+\section{Introduction}
+\label{sec:intro}
+
+\IEEEPARstart{E}{l} primer párrafo de un artículo de journal IEEE usa una
+letra capitular (drop cap) con el comando \verb|\IEEEPARstart{L}{etra}|.
+El resto del artículo sigue la estructura estándar.
+
+Contextualizar el problema y citar trabajos previos \cite{haykin2009neural}.
+
+\section{Related Work}
+\label{sec:related}
+
+Revisión de la literatura \cite{smith2020example}, \cite{jones2021analysis}.
+
+\section{Proposed Method}
+\label{sec:method}
+
+Descripción del método propuesto.
+
+\begin{equation}
+  y = \mathbf{w}^T \mathbf{x} + b
+  \label{eq:model}
+\end{equation}
+
+\section{Experimental Results}
+\label{sec:results}
+
+Resultados en Table~\ref{tab:results} y Fig.~\ref{fig:result}.
+
+\begin{table}[!t]
+  \caption{Resultados Experimentales}
+  \label{tab:results}
+  \centering
+  \begin{tabular}{lcc}
+    \toprule
+    \textbf{Método} & \textbf{Precisión (\%)} & \textbf{Tiempo (s)} \\
+    \midrule
+    Baseline    & 90.1 & 3.2 \\
+    Propuesto   & \textbf{95.7} & 2.8 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[!t]
+  \centering
+  \includegraphics[width=\columnwidth]{example-image}
+  \caption{Resultado experimental principal.}
+  \label{fig:result}
+\end{figure}
+
+\section{Discussion}
+\label{sec:discussion}
+
+Interpretación de resultados.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Conclusiones y trabajo futuro.
+
+% ---------- APÉNDICES (opcional) ---------------------------------------------
+\appendices
+\section{Demostración del Teorema 1}
+\label{app:proof}
+% Las ecuaciones en apéndices se numeran (A1), (A2), etc. automáticamente.
+
+% ---------- AGRADECIMIENTOS --------------------------------------------------
+\section*{Acknowledgment}
+Los autores agradecen a\ldots
+
+% ---------- BIBLIOGRAFÍA -----------------------------------------------------
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+
+% ---------- BIOGRAFÍAS (solo journal) ----------------------------------------
+\begin{IEEEbiographynophoto}{Primer A. Autor}
+  recibió el título de Ingeniero en Sistemas de la Universidad Ejemplo en 2020.
+  Actualmente cursa la Maestría en Ciencias de la Computación en la misma
+  universidad. Sus intereses de investigación incluyen almacenamiento
+  distribuido y tolerancia a fallos.
+\end{IEEEbiographynophoto}
+
+\begin{IEEEbiographynophoto}{Segundo B. Autor}
+  es Profesor Asociado en el Departamento de Ingeniería de la Otra Universidad.
+  Sus líneas de investigación abarcan infraestructura computacional y sistemas
+  operativos.
+\end{IEEEbiographynophoto}
+
+% Con foto (descomentar y ajustar):
+% \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,
+%     keepaspectratio]{photos/tercer_autor.jpg}}]{Tercer C. Autor, Jr.}
+%   Biografía con foto (1" × 1.25", 300 DPI, escala de grises).
+% \end{IEEEbiography}
+
+\end{document}

@@ -1,8 +1,9 @@
 # Resume-Maker — System Design & Research
 
-> Status: **Proposal / awaiting sign-off.** This document validates the idea, records the
-> verified research, and specifies the target system. No files are restructured and no skill
-> is built yet — those are the implementation phase, gated on the decisions in §14.
+> Status: **Implemented (v4).** The idea is validated, the repo is restructured to this
+> design, the `Publish CVs` CI is in place, and the `resume-maker` skill is built.
+> Remaining manual step: create the public GitHub repo + enable Pages
+> (README → "First-time GitHub setup"), then push to trigger the first build.
 >
 > Last updated: 2026-07-15
 
@@ -358,9 +359,9 @@ You pass information; the agent handles structure, naming, versioning, build, li
 | # | Decision | Recommendation |
 |---|----------|----------------|
 | D1 | **Publishing endpoint & privacy** (§9.2, §10) | ✅ **DECIDED: `diegnghtmr.github.io/resume-maker`, public, with `robots.txt`.** No DNS. `\SITE` set accordingly; a custom domain stays a one-line future migration. |
-| D2 | **Repo**: turn *this* folder into the git repo & restructure in place, vs. start a clean repo | Restructure in place — it already holds your content and history-to-be. _(pending confirm)_ |
-| D3 | **Publish application (fonda) CVs** publicly or keep them build-only | Build-only by default; publish per-application on demand. _(pending confirm)_ |
-| D4 | **Delete the 64 dead `Resume Sections` files** during migration | Yes — verified unused (nothing `\input`s them). _(pending confirm)_ |
+| D2 | **Repo**: turn *this* folder into the git repo & restructure in place, vs. start a clean repo | Restructure in place — it already holds your content and history-to-be. _(done)_ |
+| D3 | **Publish application (fonda) CVs** publicly or keep them build-only | Build-only by default; publish per-application on demand. _(done)_ |
+| D4 | **Delete the 64 dead `Resume Sections` files** during migration | Yes — verified unused (nothing `\input`s them). _(done)_ |
 
 ## 15. Migration plan (once §14 is decided)
 

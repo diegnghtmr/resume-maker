@@ -39,6 +39,11 @@ jobs:
             cv/experiencia-es.tex
             cv/certifications-en.tex
             cv/certificaciones-es.tex
+        env:
+          # Belt-and-suspenders: resolve the shared class + partials even if
+          # ./latexmkrc is not picked up. Trailing ':' keeps the standard TeX tree.
+          TEXINPUTS: ".:./shared//:./content//:"
+          BIBINPUTS: ".:./shared//:"
 
       # Collect the compiled PDFs (wherever latexmk placed them) into the site
       # folder, mirroring the URL layout, plus a robots.txt to discourage indexing.

@@ -1,0 +1,26 @@
+% Tailored application CV — self-contained for a durable archive.
+% Build from the repo ROOT: latexmk applications/<folder>/main-en.tex
+% Rule: reshape facts from content/<lang>/*.tex; never invent new ones.
+\documentclass[letterpaper,12pt]{fed-res}
+\input{shared/links.tex}
+\begin{document}
+\input{content/en/header.tex}          % or content/es/header.tex
+
+\section{Professional Profile}
+% Rewrite/trim the profile for this role (facts from content/en/profile.tex).
+
+\section{Work Experience}
+\resumeSubHeadingListStart
+    % Reorder/reword entries from content/en/work.*.tex to match the posting.
+    \resumeSubheading
+        {Role}{Date range}
+        {Employer}{City, Region}
+        \resumeItemListStart
+            \resumeItem{Tailored, quantified bullet aligned to the job.}
+        \resumeItemListEnd
+\resumeSubHeadingListEnd
+
+\section{Skills}
+% Emphasize the skills the posting asks for (from content/en/skills.tex).
+
+\end{document}

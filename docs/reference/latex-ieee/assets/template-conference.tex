@@ -1,0 +1,302 @@
+% ============================================================================
+%  PLANTILLA IEEE — Artículo de Conferencia (Conference Paper)
+%  Basada en IEEEtran v1.8b+ | Cumple con ieee-latex SKILL.md
+%  Uso: copiar este archivo, renombrar, y reemplazar el contenido de ejemplo.
+% ============================================================================
+
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% ↑ Necesario para habilitar \thanks en modo conference.
+%   Comentar si no se usa \thanks.
+
+% ====================== PAQUETES ESENCIALES ==================================
+% Orden recomendado: encoding → citas → matemáticas → gráficos → tablas → código → hyperref
+
+% --- Encoding y Lenguaje ---
+\usepackage[utf8]{inputenc}         % Entrada UTF-8 (acentos, ñ, etc.)
+\usepackage[T1]{fontenc}            % Codificación de fuentes para caracteres latinos
+% \usepackage[spanish]{babel}       % Descomentar para soporte de español
+%                                   % (silabeo, "Resumen" en vez de "Abstract", etc.)
+
+% --- Citas y Bibliografía ---
+\usepackage{cite}                   % Ordena y comprime rangos: [1]-[3] en vez de [1],[2],[3]
+
+% --- Matemáticas ---
+\usepackage{amsmath,amssymb,amsfonts} % Entornos y símbolos matemáticos extendidos
+
+% --- Gráficos ---
+\usepackage{graphicx}               % Inserción de imágenes (SIEMPRE graphicx, nunca psfig)
+%                                   % NO especificar driver: \usepackage{graphicx} sin [dvips]
+\usepackage[caption=false]{subfig}  % Subfiguras compatibles con IEEE
+
+% --- Tablas ---
+\usepackage{array}                  % Columnas mejoradas en tabular
+\usepackage{booktabs}               % Líneas profesionales: \toprule, \midrule, \bottomrule
+\usepackage{multirow}               % Celdas que abarcan múltiples filas
+
+% --- Código fuente (opcional, para listings) ---
+\usepackage{listings}               % Bloques de código con resaltado
+\lstset{
+  basicstyle=\footnotesize\ttfamily,  % Fuente monoespaciada pequeña
+  breaklines=true,                    % Corte automático de líneas largas
+  frame=single,                       % Marco alrededor del código
+  framesep=6pt,                       % Padding interno entre marco y código
+  columns=fullflexible,               % Espaciado flexible (mejor para copiar)
+  keepspaces=true,                    % Mantener espacios
+  showstringspaces=false,             % No mostrar espacios en strings
+  numbers=none,                       % Sin números de línea
+  xleftmargin=8pt,                    % Margen izquierdo
+  xrightmargin=8pt,                   % Margen derecho
+  framexleftmargin=6pt,               % Extensión del marco hacia la izquierda
+  framexrightmargin=6pt,              % Extensión del marco hacia la derecha
+  aboveskip=10pt,                     % Espacio arriba del bloque completo
+  belowskip=6pt,                      % Espacio abajo del bloque completo
+  captionpos=t,                       % Caption arriba del listing
+  abovecaptionskip=10pt,              % Espacio texto→caption
+  belowcaptionskip=15pt,              % FIX: Espacio caption→marco (valor grande)
+  language=bash,                      % Lenguaje por defecto
+}
+
+% --- Algoritmos (opcional) ---
+\usepackage{algorithm}              % Entorno flotante para algoritmos
+\usepackage{algorithmic}            % Pseudocódigo (IEEE preferred)
+
+% --- Hyperlinks (SIEMPRE de último) ---
+\usepackage{url}                    % Formateo de URLs (\url{})
+\usepackage[hidelinks]{hyperref}    % Enlaces clicables sin cajas de color
+%                                   % hidelinks = aspecto limpio para impresión
+
+% ====================== FIN DE PAQUETES ======================================
+
+% NOTA: NO cargar geometry, psfig, epsfig, subfigure (viejo), times, ni float.
+% NOTA: NO modificar márgenes, fuentes, ni espaciado. IEEEtran lo maneja todo.
+
+% ====================== RUTA DE IMÁGENES (opcional) ==========================
+\graphicspath{{figures/}}           % Carpeta de imágenes (evita rutas largas)
+
+% ====================== INICIO DEL DOCUMENTO =================================
+\begin{document}
+
+% ---------- TÍTULO -----------------------------------------------------------
+% REGLA: NO usar símbolos especiales, notas al pie, ni matemáticas en el título.
+\title{Título del Artículo: Descriptivo y Sin Caracteres Especiales}
+
+% ---------- AUTORES ----------------------------------------------------------
+% Formato: bloques de nombre + afiliación. De izquierda a derecha, luego abajo.
+% El apellido debe ser la última parte del nombre.
+\author{
+  \IEEEauthorblockN{Primer A. Autor\IEEEauthorrefmark{1},
+    Segundo B. Autor\IEEEauthorrefmark{2},
+    Tercer C. Autor\IEEEauthorrefmark{1}}
+  \IEEEauthorblockA{\IEEEauthorrefmark{1}Programa de Ingeniería,
+    Universidad Ejemplo,\\
+    Ciudad, País\\
+    primer@universidad.edu}
+  \IEEEauthorblockA{\IEEEauthorrefmark{2}Departamento de Tecnología,
+    Otra Universidad,\\
+    Ciudad, País\\
+    segundo@otrauniversidad.edu}
+}
+
+\maketitle
+
+% ---------- ABSTRACT ----------------------------------------------------------
+% REGLA: 100–200 palabras. Sin citas, ecuaciones ni caracteres especiales.
+\begin{abstract}
+  Escribir aquí un resumen conciso de 100 a 200 palabras.
+  El abstract debe indicar el problema abordado, la metodología utilizada,
+  los principales resultados obtenidos y las conclusiones más relevantes.
+  No incluir citas bibliográficas, ecuaciones matemáticas, ni abreviaturas
+  no estándar. Este texto es independiente del resto del artículo y debe
+  ser comprensible por sí solo.
+\end{abstract}
+
+% ---------- KEYWORDS ----------------------------------------------------------
+% REGLA: 5–10 términos. El primero en mayúscula. Orden alfabético.
+%        Preferir términos del IEEE Taxonomy.
+\begin{IEEEkeywords}
+  Keyword uno, keyword dos, keyword tres, keyword cuatro, keyword cinco.
+\end{IEEEkeywords}
+
+% ============================================================================
+%                            CUERPO DEL ARTÍCULO
+% ============================================================================
+
+\section{Introducción}
+\label{sec:intro}
+
+Contextualizar el problema, motivar el trabajo, y declarar el objetivo.
+Citar fuentes relevantes con \verb|\cite{}|: como se muestra en
+\cite{haykin2009neural}, \cite{smith2020example}.
+
+Las abreviaturas se definen en el primer uso en el texto:
+Redundant Array of Independent Disks (RAID), incluso si ya aparecen en el
+abstract.
+
+% ---------- SECCIÓN DE MARCO TEÓRICO / TRABAJO RELACIONADO -------------------
+\section{Trabajo Relacionado}
+\label{sec:related}
+
+Revisar brevemente la literatura existente y posicionar el aporte del
+artículo actual. Referenciar con \cite{jones2021analysis} y
+\cite{doe2022framework}.
+
+% ---------- SECCIÓN DE METODOLOGÍA -------------------------------------------
+\section{Metodología}
+\label{sec:methodology}
+
+Describir el enfoque, herramientas y procedimiento utilizado.
+
+\subsection{Entorno Experimental}
+\label{sec:environment}
+
+Ejemplo de lista (usar solo cuando sea realmente necesario):
+\begin{itemize}
+  \item Software de virtualización: Oracle VirtualBox 7.0.
+  \item Sistema operativo: Ubuntu Server 22.04 LTS.
+  \item Herramientas: \texttt{mdadm}, \texttt{fdisk}, \texttt{mkfs.ext4}.
+\end{itemize}
+
+\subsection{Procedimiento}
+\label{sec:procedure}
+
+Describir los pasos del procedimiento en prosa. Para comandos de terminal,
+usar el entorno \texttt{lstlisting}:
+
+\begin{lstlisting}[language=bash, caption={Instalación de mdadm.},
+  label={lst:install}]
+sudo apt-get update
+sudo apt-get install mdadm
+\end{lstlisting}
+
+Como se muestra en el Listing~\ref{lst:install}, el primer paso es
+instalar la utilidad \texttt{mdadm}.
+
+Para comandos más largos que requieren continuación de línea:
+
+\begin{lstlisting}[language=bash, caption={Creación del arreglo RAID 1.},
+  label={lst:raid}]
+sudo mdadm --create --verbose /dev/md0 \
+    --level=1 \
+    --raid-devices=3 /dev/sdb /dev/sdc /dev/sdd
+\end{lstlisting}
+
+% ---------- SECCIÓN DE ECUACIONES (ejemplo) ----------------------------------
+\section{Modelo Propuesto}
+\label{sec:model}
+
+% --- Ecuación simple ---
+La capacidad utilizable de un arreglo RAID~1 con $n$ discos de capacidad
+$C$ se define como:
+%
+\begin{equation}
+  C_{\text{RAID1}} = C \times 1 = C,
+  \label{eq:raid1_capacity}
+\end{equation}
+%
+donde $C$ es la capacidad del disco más pequeño del arreglo.
+Nótese que, independientemente de $n$, la capacidad útil se limita a la de
+un solo disco, ya que los datos se replican completamente.
+
+% --- Referencia correcta ---
+Como se expresa en \eqref{eq:raid1_capacity}, la redundancia tiene un costo
+directo en espacio utilizable.
+
+% Al inicio de oración: escribir "Equation" completo
+Equation~\eqref{eq:raid1_capacity} muestra que la eficiencia de espacio
+es $1/n$.
+
+% --- Ecuación multilínea con align ---
+\begin{align}
+  \text{Eficiencia} &= \frac{C_{\text{útil}}}{C_{\text{total}}}
+    = \frac{C}{n \cdot C}, \label{eq:efficiency} \\
+  &= \frac{1}{n}. \label{eq:efficiency_simplified}
+\end{align}
+
+% ---------- SECCIÓN DE RESULTADOS --------------------------------------------
+\section{Resultados}
+\label{sec:results}
+
+Los resultados se resumen en la Table~\ref{tab:comparison} y se ilustran
+en Fig.~\ref{fig:example}.
+
+% --- TABLA: caption ARRIBA, \label después de \caption ---
+\begin{table}[!t]
+  \caption{Comparación de Niveles RAID}
+  \label{tab:comparison}
+  \centering
+  \begin{tabular}{lccc}
+    \toprule
+    \textbf{Nivel} & \textbf{Discos mín.} & \textbf{Tolerancia}
+      & \textbf{Eficiencia} \\
+    \midrule
+    RAID 0 & 2 & 0 fallos      & 100\% \\
+    RAID 1 & 2 & $n-1$ fallos  & $1/n$ \\
+    RAID 5 & 3 & 1 fallo       & $(n-1)/n$ \\
+    RAID 6 & 4 & 2 fallos      & $(n-2)/n$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+% --- FIGURA: caption ABAJO, \label después de \caption ---
+% REGLA CRÍTICA: \label SIEMPRE después de \caption. Nunca antes.
+\begin{figure}[!t]
+  \centering
+  % Especificar tamaño POR FIGURA (no global).
+  \includegraphics[width=\columnwidth]{example-image}
+  % ↑ Reemplazar 'example-image' con el nombre real del archivo.
+  %   Formatos: PDF o EPS para vectores; PNG/JPG para fotos (300+ DPI).
+  \caption{Descripción clara de la figura. Terminar con punto.}
+  \label{fig:example}
+\end{figure}
+
+% --- SUBFIGURAS ---
+\begin{figure}[!t]
+  \centering
+  \subfloat[Primer caso.]{%
+    \includegraphics[width=0.45\columnwidth]{example-image-a}%
+    \label{fig:sub_a}}
+  \hfil
+  \subfloat[Segundo caso.]{%
+    \includegraphics[width=0.45\columnwidth]{example-image-b}%
+    \label{fig:sub_b}}
+  \caption{Comparación visual de dos configuraciones.}
+  \label{fig:subfigures}
+\end{figure}
+
+% --- FIGURA DOBLE COLUMNA (raro, pero disponible) ---
+% \begin{figure*}[!t]
+%   \centering
+%   \includegraphics[width=\textwidth]{wide_figure.pdf}
+%   \caption{Figura que abarca ambas columnas.}
+%   \label{fig:wide}
+% \end{figure*}
+
+% ---------- SECCIÓN DE DISCUSIÓN ---------------------------------------------
+\section{Discusión}
+\label{sec:discussion}
+
+Interpretar los resultados en contexto. Comparar con trabajos previos
+citados en la Section~\ref{sec:related}. Discutir limitaciones.
+
+% ---------- SECCIÓN DE CONCLUSIONES ------------------------------------------
+\section{Conclusiones}
+\label{sec:conclusion}
+
+Resumir los hallazgos principales y proponer trabajo futuro.
+
+% ---------- AGRADECIMIENTOS --------------------------------------------------
+% Sección sin numerar. "Acknowledgment" sin 'e' (estilo americano IEEE).
+% Incluir si el trabajo recibió financiamiento o apoyo.
+\section*{Acknowledgment}
+
+Los autores agradecen a [nombre/institución] por [tipo de apoyo].
+
+% ====================== BIBLIOGRAFÍA ========================================
+% REGLA: Siempre usar BibTeX con IEEEtran.bst. NUNCA formatear manualmente.
+% Compilar: pdflatex → bibtex → pdflatex → pdflatex
+\bibliographystyle{IEEEtran}
+\bibliography{references}          % Carga references.bib
+
+% ====================== FIN DEL DOCUMENTO ====================================
+\end{document}

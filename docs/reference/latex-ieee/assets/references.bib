@@ -1,0 +1,101 @@
+% ============================================================================
+%  ARCHIVO DE REFERENCIAS BibTeX — Ejemplo para IEEE
+%  Usar con: \bibliographystyle{IEEEtran} + \bibliography{references}
+%
+%  REGLAS CLAVE:
+%  - Proteger mayúsculas en títulos con llaves: {RAID}, {Linux}, {MIMO}
+%  - Usar en-dash (--) para rangos de páginas: pages = {1--6}
+%  - Usar abreviaturas de mes sin llaves: month = jan
+%  - Usar macros de IEEEabrv.bib para nombres de revistas/conferencias IEEE
+%  - Verificar siempre las entradas auto-generadas (IEEE Xplore, Google Scholar)
+% ============================================================================
+
+% --- ARTÍCULO DE REVISTA (JOURNAL) ---
+@ARTICLE{haykin2009neural,
+  author   = {Haykin, Simon},
+  title    = {Neural Networks and Learning Machines: A Comprehensive Foundation},
+  journal  = {Neural Networks},
+  volume   = {22},
+  number   = {5},
+  pages    = {517--520},
+  year     = {2009},
+  month    = jul,
+}
+
+% --- ARTÍCULO DE CONFERENCIA (INPROCEEDINGS) ---
+@INPROCEEDINGS{smith2020example,
+  author    = {Smith, John A. and Garc{\'i}a, Mar{\'i}a L.},
+  title     = {A Novel Approach to {RAID} Configuration in Virtualized
+               Environments},
+  booktitle = {Proc. IEEE Int. Conf. Cloud Computing},
+  year      = {2020},
+  pages     = {112--118},
+  month     = oct,
+}
+
+% --- ARTÍCULO CON MACROS IEEEabrv (mejor práctica) ---
+% Para usar estas macros, cargar IEEEabrv.bib:
+%   \bibliography{IEEEabrv,references}
+% @ARTICLE{ejemplo_macro,
+%   author  = {Autor, Nombre},
+%   title   = {Título del artículo},
+%   journal = IEEE_J_SP,            % = IEEE Trans. Signal Processing
+%   year    = {2023},
+% }
+
+% --- LIBRO ---
+@BOOK{tanenbaum2015modern,
+  author    = {Tanenbaum, Andrew S. and Bos, Herbert},
+  title     = {Modern Operating Systems},
+  publisher = {Pearson},
+  year      = {2015},
+  edition   = {4th},
+  address   = {Upper Saddle River, NJ, USA},
+}
+
+% --- ANÁLISIS / REPORTE TÉCNICO ---
+@TECHREPORT{jones2021analysis,
+  author      = {Jones, Robert K.},
+  title       = {Performance Analysis of Software {RAID} Implementations
+                 in {Linux}},
+  institution = {MIT Computer Science and Artificial Intelligence Laboratory},
+  year        = {2021},
+  number      = {TR-2021-045},
+  month       = mar,
+}
+
+% --- TESIS ---
+@MASTERSTHESIS{doe2022framework,
+  author  = {Doe, Jane},
+  title   = {A Framework for Automated Storage Redundancy in
+             Cloud Infrastructure},
+  school  = {Stanford University},
+  year    = {2022},
+}
+
+% --- MANUAL / DOCUMENTACIÓN ---
+@MANUAL{mdadm2020man,
+  title        = {mdadm --- Manage {MD} Devices aka {Linux} Software {RAID}},
+  author       = {Brown, Neil},
+  organization = {Linux man-pages project},
+  year         = {2020},
+  note         = {man page, mdadm(8)},
+}
+
+% --- RECURSO EN LÍNEA ---
+@MISC{ubuntu2023raid,
+  author       = {{Ubuntu Community}},
+  title        = {Installation/{SoftwareRAID}},
+  howpublished = {\url{https://help.ubuntu.com/community/Installation/SoftwareRAID}},
+  year         = {2023},
+  note         = {Accessed: Feb. 10, 2026},
+}
+
+% --- ESTÁNDAR ---
+@MISC{ieee2020standards,
+  author       = {{IEEE}},
+  title        = {{IEEE} Standard for Information Technology --- 
+                  Storage Management},
+  howpublished = {IEEE Std 1244-2020},
+  year         = {2020},
+}
