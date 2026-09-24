@@ -25,3 +25,6 @@ Thumbs.db
 
 # Local tooling metadata (auto-generated skill registry; not part of this project)
 .atl/
+
+# CodeGraph local index
+.codegraph/
