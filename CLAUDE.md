@@ -21,12 +21,16 @@ scripts/build.sh  applications/<job>/main-en.tex   # -> build/applications/<job>
 ```
 
 Always build from the repo **ROOT** (`\input` paths are root-relative). Docker Desktop must be
-running. Do **not** run bare `latexmk` on an application file — it obeys `latexmkrc` and writes
-to `build/cv/`, overwriting a canonical PDF.
+running. `build.ps1` is PowerShell-only; from Git Bash/macOS/Linux use `bash scripts/build.sh`
+(same arguments). Do **not** run bare `latexmk` on an application file — it obeys `latexmkrc` and
+writes to `build/cv/`, overwriting a canonical PDF.
 
 ## Hard rules
 
-- **Never invent facts** on a CV. Only reshape what already exists in `content/`.
+- **Never invent facts or claims** on a CV (goals, levels, metrics included). Only reshape what
+  already exists in `content/` or what the user states in chat.
+- Tailored CVs copy `cv/main-<lang>.tex` and keep its `\section` lines byte-identical; tailor by
+  emphasis only (`.claude/skills/resume-maker/references/new-application.md`).
 - `fed-res.cls` lives **only** in `shared/`. Never copy it into a folder.
 - External links **only** via macros in `shared/links.tex`. Adding/renaming a published CV touches
   **four** files: the `cv/` stub, `root_file` in `publish.yml` (an explicit list, **not** a glob),

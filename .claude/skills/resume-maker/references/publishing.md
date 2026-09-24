@@ -19,8 +19,8 @@ The site **root** is the landing page (`web/index.html`), deployed by the same w
   `build/cv/*.pdf` → `site/cv/`, copies `web/.` → `site/` (the landing page), writes
   `site/robots.txt`, and deploys via `configure-pages@v5` → `upload-pages-artifact@v3` →
   `deploy-pages@v4`.
-- **Local** — `scripts/build.ps1 <file>` or `scripts/build.sh <file>`: TeX Live in Docker, no
-  local LaTeX needed. Canonical → `build/cv/`; applications → `build/applications/<job>/`.
+- **Local** — `scripts/build.ps1 <file>` (PowerShell only) or `bash scripts/build.sh <file>`
+  (Git Bash / macOS / Linux): TeX Live in Docker, no local LaTeX needed. Canonical → `build/cv/`; applications → `build/applications/<job>/`.
   Uses pdfLaTeX (the class needs `\pdfgentounicode`/`glyphtounicode`), not Tectonic/XeTeX.
   A native `latexmk cv/main-en.tex` works for **canonical** CVs only — **never** for an
   application (it writes to `build/cv/` and overwrites the canonical PDF).

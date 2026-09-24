@@ -43,11 +43,20 @@ scripts/build.sh  applications/<job>/main-en.tex   # -> build/applications/<job>
 
 Always from the repo **ROOT** — `\input` paths are root-relative. The scripts pass a per-source-dir
 `-outdir`; **bare `latexmk` does not** and will write an application's PDF to `build/cv/`,
-overwriting a canonical one.
+overwriting a canonical one. `build.ps1` is PowerShell-only (bash cannot parse it); from Git Bash,
+macOS, or Linux use `bash scripts/build.sh [<file>…]` — same arguments.
 
 ## Golden rules
 
-- **Never invent facts.** Reshape only what exists in `content/`. Move content, don't rewrite it, unless asked.
+- **Never invent facts or claims** — goals/objectives, levels, and metrics included. Reshape only
+  what exists in `content/` or what the user states in chat. Move content, don't rewrite it, unless asked.
+- **Tailored CVs re-emphasize the canonical main CV; they never redesign it.** Copy
+  `cv/main-<lang>.tex`, keep every `\section{...}` line byte-identical, and keep skill-category
+  labels, entry titles, dates, casing, and layout verbatim. Tailor only by order, selection, and
+  bullet emphasis; keep it ≤ 2 pages. Rules and checklist:
+  `.claude/skills/resume-maker/references/new-application.md`.
+- Repo format conventions beat generic writing-style skills: those may polish prose (profile,
+  bullets), never titles, dates, casing, labels, layout, or facts.
 - Class only in `shared/`. Links only via `shared/links.tex`. Filenames ASCII / space-free / lowercase-hyphen.
 - Adding or renaming a published CV touches **four** files together: the `cv/` stub, `root_file` in
   `.github/workflows/publish.yml` (CI compiles an **explicit list, not a glob**), `shared/links.tex`,

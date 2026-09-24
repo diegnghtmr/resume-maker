@@ -1,34 +1,20 @@
-% Tailored application CV. INLINE the tailored bullets below so this archive never drifts;
-% only the stable header/links are \input.
+% DEPRECATED as a starting point — do not build from this file.
+% A tailored application starts as a COPY of the canonical stub cv/main-<lang>.tex: replace each
+% \input{content/<lang>/...} section with its inlined, tailored content and keep every
+% \section{...} line byte-identical. See .claude/skills/resume-maker/references/new-application.md.
+%
+% Replace the copied stub's top comment block with the header below.
+%-------------------------------------------------------------------------------
+% Tailored application CV (<folder>). Sections INLINED from content/<lang>/ so this
+% archive never drifts; only shared/links.tex and the header are \input.
 %
 % Build from the repo ROOT:
-%     scripts/build.ps1 applications/<folder>/main-en.tex      (or scripts/build.sh)
-%   -> build/applications/<folder>/main-en.pdf
+%     scripts/build.ps1 applications/<folder>/main-<lang>.tex       (PowerShell)
+%     bash scripts/build.sh applications/<folder>/main-<lang>.tex    (Git Bash / POSIX)
+%   -> build/applications/<folder>/main-<lang>.pdf
 %
 % NEVER run bare `latexmk` on this file: it obeys ./latexmkrc, writes to build/cv/, and
 % OVERWRITES the canonical main CV. Only the scripts pass a per-source-dir -outdir.
 %
-% Rule: reshape facts from content/<lang>/*.tex; never invent new ones.
-\documentclass[letterpaper,12pt]{fed-res}
-\input{shared/links.tex}
-\begin{document}
-\input{content/en/header.tex}          % or content/es/header.tex
-
-\section{Professional Profile}
-% Rewrite/trim the profile for this role (facts from content/en/profile.tex).
-
-\section{Work Experience}
-\resumeSubHeadingListStart
-    % Reorder/reword entries from content/en/work.*.tex to match the posting.
-    \resumeSubheading
-        {Role}{Date range}
-        {Employer}{City, Region}
-        \resumeItemListStart
-            \resumeItem{Tailored, quantified bullet aligned to the job.}
-        \resumeItemListEnd
-\resumeSubHeadingListEnd
-
-\section{Skills}
-% Emphasize the skills the posting asks for (from content/en/skills.tex).
-
-\end{document}
+% Rule: tailor by emphasis only; never invent facts, sections, or skill categories.
+%-------------------------------------------------------------------------------
