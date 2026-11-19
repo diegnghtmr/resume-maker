@@ -39,6 +39,9 @@ Miss #2 and the landing page ships a live 404. Miss #4 and the CV is unreachable
 - One evolving canonical set in `cv/`. Cut a version with an annotated tag:
   `git tag -a v5 -m "v5: ..."; git push --tags`. History = commit log; rollback = `git checkout <tag> -- cv/`.
 - The permanent URLs always serve the latest version; older versions live in tags/Releases.
+- The landing-page badge is set at deploy time from the latest `v*` tag (`git describe`); never
+  hand-edit it. Pushing a `v*` tag triggers a redeploy, so the badge updates even when the tag
+  is pushed after the commit.
 
 ## Privacy
 The Pages site is public on GitHub Free (auth-gated Pages is Enterprise-only). CI writes a

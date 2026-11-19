@@ -3,6 +3,7 @@ name: Publish CVs
 on:
   push:
     branches: [main]
+    tags: ['v*']                      # a new version tag redeploys so the landing badge shows it
   workflow_dispatch:
 
 permissions:
@@ -24,6 +25,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0                # full history + tags, needed by `git describe` below
 
       # Compiles every canonical CV from the repo root. ./latexmkrc sets TEXINPUTS
       # (so shared/fed-res.cls + content/ partials resolve) and $out_dir=build/cv.
@@ -60,6 +63,11 @@ jobs:
           # application PDF, which is build-only by design.
           cp build/cv/*.pdf site/cv/
           cp -r web/. site/                     # landing page (index.html) + static assets
+          # Version badge comes from the latest reachable tag, never a hand-edited value.
+          CV_VERSION="$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || echo dev)"
+          sed -i -E "s|(<span class=\"badge\">)[^<]*(</span>)|\1${CV_VERSION}\2|" site/index.html
+          grep -q "<span class=\"badge\">${CV_VERSION}</span>" site/index.html
+          echo "Landing badge: ${CV_VERSION}"
           printf 'User-agent: *\nDisallow: /\n' > site/robots.txt
           echo "Published files:"; ls -la site && ls -la site/cv
 
