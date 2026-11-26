@@ -1,82 +1,107 @@
-# resume-maker
+<!-- markdownlint-disable-next-line MD041 -->
+<div align="center">
 
-LaTeX résumé system for **Diego Alejandro Flores Quintero**. One shared core, each
-section authored once, compiled to PDF and published to GitHub Pages at **permanent
-URLs** — update a CV and its link never changes.
+<h1>resume-maker</h1>
 
-- Full design & rationale: [docs/system-design.md](docs/system-design.md)
-- Agent skill (drives generation end-to-end): `.claude/skills/resume-maker/SKILL.md`
+<p><strong>Build bilingual LaTeX résumés and keep the links you have already shared.</strong></p>
 
-## Layout
+<p>
+<a href="https://github.com/diegnghtmr/resume-maker/actions/workflows/publish.yml"><img src="https://img.shields.io/github/actions/workflow/status/diegnghtmr/resume-maker/publish.yml?branch=main&style=for-the-badge&labelColor=1F1F28&label=CI" alt="Publish workflow"></a>
+<img src="https://img.shields.io/badge/TeX%20Live-pdfLaTeX-E0C15A?style=for-the-badge&labelColor=1F1F28" alt="TeX Live and pdfLaTeX">
+<img src="https://img.shields.io/badge/GitHub%20Pages-Actions-E0C15A?style=for-the-badge&labelColor=1F1F28" alt="GitHub Pages with Actions">
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-7FB4CA?style=for-the-badge&labelColor=1F1F28" alt="License: MIT"></a>
+</p>
 
-| Path | What |
-|------|------|
-| `shared/` | `fed-res.cls` (the class), `links.tex` (every published URL), `citations.bib` (inert — nothing cites it) |
-| `content/en`, `content/es` | section partials — `*.short` (main) and `*.full` (detail) |
-| `cv/` | thin assembly stubs → the 8 canonical PDFs |
-| `applications/` | one folder per job application ("la fonda"), append-only, build-only |
-| `web/index.html` | landing page deployed to the site root (hard-codes all 8 PDF links) |
-| `scripts/` | `build.ps1` / `build.sh` — containerized build entry points |
-| `latexmkrc` | pdfLaTeX + `TEXINPUTS` + default output dir (`build/cv`) |
-| `docs/` | `system-design.md` + `reference/latex-ieee/` (vendored LaTeX reference) |
-| `AGENTS.md`, `CLAUDE.md` | rules for AI agents (the skill lives in `.claude/skills/resume-maker/`) |
-| `.github/workflows/publish.yml` | compiles `cv/` and deploys the PDFs + landing page to Pages |
-| `build/` | local generated output (gitignored). `site/` is created only inside CI. |
+<p>
+<a href="https://diegnghtmr.me/en/work/resume-maker/"><strong>Case study</strong></a> &bull;
+<a href="#quick-start"><strong>Quick start</strong></a> &bull;
+<a href="#architecture"><strong>Architecture</strong></a>
+</p>
 
-## Permanent URLs
+</div>
 
-Base: `https://diegnghtmr.github.io/resume-maker`
+A résumé link should still work after the PDF changes. This repository builds Diego Alejandro Flores Quintero's English and Spanish résumés from shared LaTeX sources, publishes the canonical set at stable paths, and keeps tailored applications out of the Pages build. A shorter main résumé links to separate education, work, and certification detail PDFs.
 
-| CV | Path |
-|----|------|
-| Main | `/cv/main-en.pdf` · `/cv/main-es.pdf` |
-| Education detail | `/cv/education-en.pdf` · `/cv/educacion-es.pdf` |
-| Work detail | `/cv/work-en.pdf` · `/cv/experiencia-es.pdf` |
-| Certifications detail | `/cv/certifications-en.pdf` · `/cv/certificaciones-es.pdf` |
+## Features
 
-The site root (`https://diegnghtmr.github.io/resume-maker/`) is a landing page (`web/index.html`)
-linking every CV. Updating any CV keeps the same URL — no more re-uploading and re-linking.
+- **Canonical bilingual set.** Build one main résumé and three detail documents in each language.
+- **Shared formatting and links.** Use the same LaTeX class and URL macros across all canonical targets.
+- **Stable public URLs.** Replace the PDF at its existing path when the underlying content changes.
+- **Separate application builds.** Compile job-specific copies under their own build directory so they do not overwrite canonical output.
+- **Explicit publish targets.** Publish a reviewed target list and an index page rather than sweeping all local PDFs into Pages.
 
-## Build locally (optional)
+## Quick start
 
-No local LaTeX install needed — build in a container with parity to CI. Start Docker Desktop, then:
+With Docker running, build through the TeX Live container; a local TeX install is not needed. The first build may need to pull the image, which is cached locally after that.
 
-```powershell
-./scripts/build.ps1                 # all 8 CVs  (PowerShell)
-./scripts/build.ps1 cv/main-en.tex  # one file
-```
 ```sh
-scripts/build.sh                    # all 8 CVs  (Git Bash / macOS / Linux / WSL)
-scripts/build.sh cv/main-en.tex     # one file
+git clone https://github.com/diegnghtmr/resume-maker.git
+cd resume-maker
+scripts/build.sh
 ```
 
-Output → `build/cv/*.pdf` (applications → `build/applications/<job>/`). First run pulls the TeX
-Live image (~a few GB, cached **locally** after that); override it with `LATEX_IMAGE`.
-Prefer a native install? `latexmk cv/main-en.tex` works for **canonical** CVs — but never run
-bare `latexmk` on an application file: it writes to `build/cv/` and overwrites the canonical PDF.
-No setup at all? Just `git push` — CI builds and publishes.
+To build only one canonical PDF, run `scripts/build.sh cv/main-en.tex`. On Windows PowerShell use `./scripts/build.ps1` or `./scripts/build.ps1 cv/main-en.tex`. Open the generated files under `build/cv/`. With a native TeX Live setup, `latexmk cv/main-en.tex` builds the canonical target; do not use bare `latexmk` for application files because the default output directory is `build/cv/`.
 
-## GitHub setup — ✅ already done (kept for reference)
+| Variable | Purpose | Default |
+| --- | --- | --- |
+| `LATEX_IMAGE` | Override the image used by the local Docker build wrappers. | `texlive/texlive:latest` |
 
-1. Create a **public** repo named `resume-maker` and push `main`.
-2. Settings → Pages → **Source: GitHub Actions**.
-3. Push → the `Publish CVs` workflow builds and deploys to the base URL above.
-   Every run takes ~2–5 min: CI re-pulls the TeX Live image each time (no CI image cache).
+### Published PDFs
 
-## Common tasks
+The [GitHub Pages index](https://diegnghtmr.github.io/resume-maker/) links the eight canonical PDFs. These paths are relative to that site:
 
-- **Edit a CV** — change the relevant `content/<lang>/*.tex`, push. Same URL updates.
-- **Cut a version** — `git tag -a v5 -m "v5: ..."; git push --tags`.
-- **Tailor for a job** — see [applications/README.md](applications/README.md), or just tell
-  your coding agent *"generate a CV for &lt;role&gt; at &lt;company&gt;"*.
-- **Add a NEW published CV** — four files change together: the `cv/` stub (unique basename),
-  `root_file` in `.github/workflows/publish.yml` (an explicit list, **not** a glob),
-  `shared/links.tex`, and `web/index.html`. Miss the workflow → the landing page ships a 404.
+| Document | English | Spanish |
+| --- | --- | --- |
+| Main résumé | `/cv/main-en.pdf` | `/cv/main-es.pdf` |
+| Education detail | `/cv/education-en.pdf` | `/cv/educacion-es.pdf` |
+| Work detail | `/cv/work-en.pdf` | `/cv/experiencia-es.pdf` |
+| Certifications detail | `/cv/certifications-en.pdf` | `/cv/certificaciones-es.pdf` |
 
-Privacy: the Pages site is public (GitHub Free plan). `robots.txt` and a `noindex` meta on the
-landing page discourage indexing, but PDFs can't carry a noindex header and the landing page
-publicly lists every CV. Details in `docs/system-design.md` §10.
+## Architecture
+
+The files in `cv/` assemble short or full language-specific sections using a shared class. `latexmkrc` selects pdfLaTeX and configures TeX's source paths. The local wrappers mirror each source folder under `build/`; only canonical PDFs are staged by [Publish CVs](.github/workflows/publish.yml). The workflow substitutes its landing-page version from the latest reachable `v*` tag.
+
+```mermaid
+flowchart LR
+    Content["English and Spanish LaTeX sections"] --> CV["Canonical résumé assemblies"]
+    Shared["Shared class and published links"] --> CV
+    CV --> Build["latexmk / pdfLaTeX"]
+    Applications["Tailored application assemblies"] --> Build
+    Build -->|"Canonical PDFs"| Canonical["build/cv"]
+    Build -->|"Tailored PDFs"| Private["build/applications by job"]
+    Canonical -->|"Pages artifact with landing page"| Pages["GitHub Pages"]
+```
+
+## Tech stack
+
+| Layer | Technology |
+| --- | --- |
+| Documents | LaTeX, shared `fed-res` document class |
+| Compilation | TeX Live, `latexmk`, pdfLaTeX |
+| Local wrappers | Docker, Bash, PowerShell |
+| Publication | GitHub Actions, GitHub Pages, static HTML |
+
+## Quality
+
+The Publish CVs workflow runs on `main`, `v*` tags, or manual dispatch. It compiles the eight named targets and packages `build/cv/` and `web/`; an absent or failed canonical build prevents deployment. It checks that the staged landing page contains the computed version badge. For local verification, use the build wrappers above. There is no separate automated test suite in this workflow.
+
+## Project structure
+
+```text
+shared/                 Document class, published URL macros, and unused bibliography
+content/en, content/es  Short and full sections in each language
+cv/                     Eight canonical assembly files
+applications/           Build-only, append-only job variants
+web/                    Public index and static assets
+scripts/                Docker build wrappers
+```
+
+## Documentation
+
+- [System design](docs/system-design.md) covers the publishing strategy and privacy trade-offs. Pages is public: `robots.txt` and the landing page's `noindex` discourage indexing but are not access controls. Application source committed to a public repository is also public.
+- [Application workflow](applications/README.md) explains how to tailor a résumé without replacing a canonical PDF. The [agent skill](.claude/skills/resume-maker/SKILL.md) drives generation, and the [LaTeX reference](docs/reference/latex-ieee/SKILL.md) is vendored.
+- Edit the appropriate `content/<lang>/` section to update a résumé without changing its address. To add a public document, update its unique `cv/` target, the workflow's explicit `root_file` list, [shared URLs](shared/links.tex), and the [landing page](web/index.html) together. A version tag redeploys the canonical set. For a new fork, set the Pages source to **GitHub Actions** and update its URL macros and public index together.
 
 ## License
 
-MIT, see [LICENSE](LICENSE).
+[MIT](LICENSE).
