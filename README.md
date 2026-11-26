@@ -76,3 +76,7 @@ No setup at all? Just `git push` — CI builds and publishes.
 Privacy: the Pages site is public (GitHub Free plan). `robots.txt` and a `noindex` meta on the
 landing page discourage indexing, but PDFs can't carry a noindex header and the landing page
 publicly lists every CV. Details in `docs/system-design.md` §10.
+
+## License
+
+MIT, see [LICENSE](LICENSE).
